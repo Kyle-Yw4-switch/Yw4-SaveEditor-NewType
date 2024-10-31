@@ -9,3 +9,7 @@ How to Build
 
 My source is optimized for Windows.<br>
 If you do not use Windows, delete build.bat and clean.bat<br>
+
+Author.
+[[bqsantana](https://github.com/bqsantana/AYw4SaveEditor)]
+[bqsantana'scoffe](https://buymeacoffee.com/bqsantana)
