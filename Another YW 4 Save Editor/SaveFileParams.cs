@@ -1,4 +1,6 @@
-﻿namespace Another_YW_4_Save_Editor
+﻿using System.Text;
+
+namespace Another_YW_4_Save_Editor
 {
     internal class SaveFileParams
     {
@@ -11,7 +13,7 @@
         public List<YoKai> SellingYoKaiList { get; set; } = new List<YoKai> { };
         public List<MainCharacter> MainCharacterList { get; set; } = new List<MainCharacter>();
         public int TotalItemQuantity1 { get; set; }
-        public List<int> characterID2List { get; set; }
+        public List<int>? characterID2List { get; set; }
 
 
         public void mapParams(Stream str)
@@ -28,12 +30,12 @@
 
             misc.Money = getByteValue.ExtractByteToInt(str, 203, 4);
 
-            misc.NateName = getByteValue.ExtractByteToString(str, 282, 24);
-            misc.KatieName = getByteValue.ExtractByteToString(str, 318, 24);
-            misc.SummerName = getByteValue.ExtractByteToString(str, 354, 24);
-            misc.ToumaName = getByteValue.ExtractByteToString(str, 390, 24);
-            misc.AkinoriName = getByteValue.ExtractByteToString(str, 426, 24);
-            misc.JackName = getByteValue.ExtractByteToString(str, 462, 24);
+            misc.NateName = getByteValue.ExtractByteToString(str, 282, 33);
+            misc.KatieName = getByteValue.ExtractByteToString(str, 318, 33);
+            misc.SummerName = getByteValue.ExtractByteToString(str, 354, 33);
+            misc.ToumaName = getByteValue.ExtractByteToString(str, 390, 33);
+            misc.AkinoriName = getByteValue.ExtractByteToString(str, 426, 33);
+            misc.JackName = getByteValue.ExtractByteToString(str, 462, 33);
 
             misc.MoneySpent = getByteValue.ExtractByteToInt(str, 1040, 4);
 
@@ -127,7 +129,7 @@
                 {
                     ID1 = getByteValue.ExtractByteToInt(str, pontualOffset, 2),
                     ID2 = getByteValue.ExtractByteToInt(str, pontualOffset + 2, 2),
-                    Character_Name = getByteValue.ExtractByteToString(str, pontualOffset + 28, 24),
+                    Character_Name = getByteValue.ExtractByteToString(str, pontualOffset + 28, 33),
                     Character_Signature = getByteValue.ExtractByteArrayToString(str, pontualOffset + 72, 4),
                     Character_Skill1 = getByteValue.ExtractByteArrayToString(str, pontualOffset + 84, 4),
                     Character_Skill2 = getByteValue.ExtractByteArrayToString(str, pontualOffset + 88, 4),
@@ -179,7 +181,7 @@
                 {
                     ID1 = getByteValue.ExtractByteToInt(str, pontualOffset, 2),
                     ID2 = getByteValue.ExtractByteToInt(str, pontualOffset + 2, 2),
-                    YoKai_Name = getByteValue.ExtractByteToString(str, pontualOffset + 28, 24),
+                    YoKai_Name = getByteValue.ExtractByteToString(str, pontualOffset + 28, 33),
                     YoKai_Signature = getByteValue.ExtractByteArrayToString(str, pontualOffset + 72, 4),
                     YoKai_Skill1 = getByteValue.ExtractByteArrayToString(str, pontualOffset + 84, 4),
                     YoKai_Skill2 = getByteValue.ExtractByteArrayToString(str, pontualOffset + 88, 4),
@@ -254,7 +256,7 @@
             setByteValue.InjectByteFromFloat(str, misc.LocalParams.PositionX, 131);
             setByteValue.InjectByteFromFloat(str, misc.LocalParams.PositionY, 135);
             setByteValue.InjectByteFromFloat(str, misc.LocalParams.PositionZ, 139);
-            setByteValue.InjectByteFromByteString(str, misc.LocalParams.Map, 167);
+            setByteValue.InjectByteFromByteString(str, misc.LocalParams.Map ?? "defaultMap", 167);
 
             setByteValue.InjectByteFromInt(str, misc.Money, 203, 4);
 
@@ -283,8 +285,6 @@
             }
 
             setByteValue.InjectByteFromInt(str, ConsumableList.Where(food => food.ID2 > 0).Count(), 166587, 2);
-
-
             // USER YOKAI ---------------------------------------------------------------------------------------////////////////////////////
 
             pontualOffset = 169449;
@@ -293,14 +293,14 @@
             {
                 setByteValue.InjectByteFromInt(str, yokai.ID1, pontualOffset, 2);
                 setByteValue.InjectByteFromInt(str, yokai.ID2, pontualOffset + 2, 2);
-                setByteValue.InjectByteFromString(str, yokai.YoKai_Name, pontualOffset + 28, 24);
-                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Signature, pontualOffset + 72);
-                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill1, pontualOffset + 84);
-                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill2, pontualOffset + 88);
-                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill3, pontualOffset + 92);
-                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill4, pontualOffset + 96);
-                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill5, pontualOffset + 100);
-                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill6, pontualOffset + 104);
+                setByteValue.InjectByteFromString(str, yokai.YoKai_Name ?? "DefaultName", pontualOffset + 28, 33);
+                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Signature ?? "DefaultName", pontualOffset + 72);
+                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill1 ?? "DefaultName", pontualOffset + 84);
+                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill2 ?? "DefaultName", pontualOffset + 88);
+                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill3 ?? "DefaultName", pontualOffset + 92);
+                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill4 ?? "DefaultName", pontualOffset + 96);
+                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill5 ?? "DefaultName", pontualOffset + 100);
+                setByteValue.InjectByteFromByteString(str, yokai.YoKai_Skill6 ?? "DefaultName", pontualOffset + 104);
                 setByteValue.InjectByteFromInt(str, yokai.YoKai_XP, pontualOffset + 132, 4);
                 setByteValue.InjectByteFromInt(str, yokai.YoKai_HP, pontualOffset + 144, 4);
                 setByteValue.InjectByteFromInt(str, yokai.YoKai_YP, pontualOffset + 156, 4);
@@ -355,14 +355,14 @@
             {
                 setByteValue.InjectByteFromInt(str, character.ID1, pontualOffset, 2);
                 setByteValue.InjectByteFromInt(str, character.ID2, pontualOffset + 2, 2);
-                setByteValue.InjectByteFromString(str, character.Character_Name, pontualOffset + 28, 24);
-                setByteValue.InjectByteFromByteString(str, character.Character_Signature, pontualOffset + 72);
-                setByteValue.InjectByteFromByteString(str, character.Character_Skill1, pontualOffset + 84);
-                setByteValue.InjectByteFromByteString(str, character.Character_Skill2, pontualOffset + 88);
-                setByteValue.InjectByteFromByteString(str, character.Character_Skill3, pontualOffset + 92);
-                setByteValue.InjectByteFromByteString(str, character.Character_Skill4, pontualOffset + 96);
-                setByteValue.InjectByteFromByteString(str, character.Character_Skill5, pontualOffset + 100);
-                setByteValue.InjectByteFromByteString(str, character.Character_Skill6, pontualOffset + 104);
+                setByteValue.InjectByteFromString(str, character.Character_Name ?? "DefaultName", pontualOffset + 28, 24);
+                setByteValue.InjectByteFromByteString(str, character.Character_Signature ?? "DefaultName", pontualOffset + 72);
+                setByteValue.InjectByteFromByteString(str, character.Character_Skill1 ?? "DefaultName", pontualOffset + 84);
+                setByteValue.InjectByteFromByteString(str, character.Character_Skill2 ?? "DefaultName", pontualOffset + 88);
+                setByteValue.InjectByteFromByteString(str, character.Character_Skill3 ?? "DefaultName", pontualOffset + 92);
+                setByteValue.InjectByteFromByteString(str, character.Character_Skill4 ?? "DefaultName", pontualOffset + 96);
+                setByteValue.InjectByteFromByteString(str, character.Character_Skill5 ?? "DefaultName", pontualOffset + 100);
+                setByteValue.InjectByteFromByteString(str, character.Character_Skill6 ?? "DefaultName", pontualOffset + 104);
                 setByteValue.InjectByteFromInt(str, character.Character_XP, pontualOffset + 132, 4);
                 setByteValue.InjectByteFromInt(str, character.Character_HP, pontualOffset + 144, 4);
                 setByteValue.InjectByteFromInt(str, character.Character_YP, pontualOffset + 156, 4);

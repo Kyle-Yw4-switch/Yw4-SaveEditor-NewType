@@ -12,13 +12,18 @@ namespace Another_YW_4_Save_Editor
         SaveFileParams saveFileParams;
 
         
-        public Form1()
-        {
-            InitializeComponent();
-            //Application.OpenForms += new FormClosedEventHandler(CloseAllForms);
-            //mainTabControl.Controls.Remove(tabPage2);
-            //mainTabControl.Controls.Remove(tabPage3);
-        }
+public Form1()
+{
+    InitializeComponent();
+    
+    // Stream や MemoryStream 型のフィールドを適切に初期化
+    openedFile = new MemoryStream();  // Stream 型として初期化
+    workFile = new MemoryStream();    // MemoryStream 型として初期化
+    saveFileParams = new SaveFileParams();  // SaveFileParams 型として初期化
+    
+    // 他のコード
+}
+
 
         
 
@@ -60,7 +65,7 @@ namespace Another_YW_4_Save_Editor
                         moneyNbox.Value = saveFileParams.misc.Money;
                         gatchaDaily.Value = saveFileParams.misc.Gatcha.gatchaTries;
                         gatchaMax.Value = saveFileParams.misc.Gatcha.gatchaMaxTries;
-                        mapCbox.SelectedIndex = new GetMap().pickMapIndex(saveFileParams.misc.LocalParams.Map);
+                        mapCbox.SelectedIndex = new GetMap().pickMapIndex(saveFileParams.misc.LocalParams.Map ?? "defaultMap");
                         positionXNbox.Value = (decimal)saveFileParams.misc.LocalParams.PositionX;
                         positionYNbox.Value = (decimal)saveFileParams.misc.LocalParams.PositionY;
                         positionZNbox.Value = (decimal)saveFileParams.misc.LocalParams.PositionZ;
@@ -1379,7 +1384,7 @@ namespace Another_YW_4_Save_Editor
 
         private void toumaNameTbox_TextChanged(object sender, EventArgs e)
         {
-            if (Encoding.UTF8.GetBytes(toumaNameTbox.Text).Count() < 24)
+            if (Encoding.UTF8.GetBytes(toumaNameTbox.Text).Count() < 34)
             {
                 saveFileParams.misc.ToumaName = toumaNameTbox.Text;
             }
@@ -1392,7 +1397,7 @@ namespace Another_YW_4_Save_Editor
 
         private void summerNameTbox_TextChanged(object sender, EventArgs e)
         {
-            if (Encoding.UTF8.GetBytes(summerNameTbox.Text).Count() < 24)
+            if (Encoding.UTF8.GetBytes(summerNameTbox.Text).Count() < 34)
             {
                 saveFileParams.misc.SummerName = summerNameTbox.Text;
             }
@@ -1404,7 +1409,7 @@ namespace Another_YW_4_Save_Editor
 
         private void akinoriNameTbox_TextChanged(object sender, EventArgs e)
         {
-            if (Encoding.UTF8.GetBytes(akinoriNameTbox.Text).Count() < 24)
+            if (Encoding.UTF8.GetBytes(akinoriNameTbox.Text).Count() < 34)
             {
                 saveFileParams.misc.AkinoriName = akinoriNameTbox.Text;
             }
@@ -1416,7 +1421,7 @@ namespace Another_YW_4_Save_Editor
 
         private void jackNameTbox_TextChanged(object sender, EventArgs e)
         {
-            if (Encoding.UTF8.GetBytes(jackNameTbox.Text).Count() < 24)
+            if (Encoding.UTF8.GetBytes(jackNameTbox.Text).Count() < 34)
             {
                 saveFileParams.misc.JackName = jackNameTbox.Text;
             }
@@ -1428,7 +1433,7 @@ namespace Another_YW_4_Save_Editor
 
         private void nateNameTbox_TextChanged(object sender, EventArgs e)
         {
-            if (Encoding.UTF8.GetBytes(nateNameTbox.Text).Count() < 24)
+            if (Encoding.UTF8.GetBytes(nateNameTbox.Text).Count() < 34)
             {
                 saveFileParams.misc.NateName = nateNameTbox.Text;
             }
@@ -1440,7 +1445,7 @@ namespace Another_YW_4_Save_Editor
 
         private void katieNameTbox_TextChanged(object sender, EventArgs e)
         {
-            if (Encoding.UTF8.GetBytes(katieNameTbox.Text).Count() < 24)
+            if (Encoding.UTF8.GetBytes(katieNameTbox.Text).Count() < 34)
             {
                 saveFileParams.misc.KatieName = katieNameTbox.Text;
             }
@@ -1485,7 +1490,7 @@ namespace Another_YW_4_Save_Editor
         {
             foreach (ListViewItem item in yokaiListView.SelectedItems)
             {
-                if (Encoding.UTF8.GetBytes(yokaiTbox.Text).Count() < 24)
+                if (string.IsNullOrEmpty(yokaiTbox.Text) || Encoding.UTF8.GetBytes(yokaiTbox.Text).Length < 34)
                 {
                     saveFileParams.UserYoKaiList[item.Index].YoKai_Name = yokaiTbox.Text;
                 }
